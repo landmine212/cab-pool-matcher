@@ -32,3 +32,6 @@ def to_dict(self):
             order=data["order"],
             submitted_at=data["submitted_at"],
         )
+        
+    def __str__(self):
+        return f"{self.name} (Year {self.year}) - requested at {self.submitted_at}"
