@@ -60,3 +60,22 @@ class CabPoolMatcher:
         for queue in self.queues.values():
             for _, _, req in queue:
                 waiting_list.append(req.to_dict())
+        
+        state = {
+            "next_order": self.next_order,
+            "cabs": [cab.to_dict() for cab in self.cabs],
+            "waiting_requests": waiting_list,
+        }
+
+        with open(STATE_FILE, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=2)
+    
+    def add_request(self, name, destination, time_slot, year):
+        """Add a student request into the priority queue for their trip."""
+        req = RideRequest(name, destination, time_slot, year, self.next_order)
+        self.next_order += 1
+
+        trip = (destination, time_slot)
+        heapq.heappush(self.queues[trip], (-req.year, req.order, req))
+        self.save_state()
+        print(f"\nAdded request: {req.name} (Year {req.year}) -> {destination}, {time_slot}")
