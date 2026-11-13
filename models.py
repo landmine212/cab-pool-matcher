@@ -21,3 +21,14 @@ def to_dict(self):
             "order": self.order,
             "submitted_at": self.submitted_at,
         }
+    @classmethod
+    def from_dict(cls, data):
+        """Recreate a RideRequest object from a dictionary."""
+        return cls(
+            name=data["name"],
+            destination=data["destination"],
+            time_slot=data["time_slot"],
+            year=data["year"],
+            order=data["order"],
+            submitted_at=data["submitted_at"],
+        )
