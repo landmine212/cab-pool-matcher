@@ -17,3 +17,9 @@
     "destination": "Delhi",
     "time_slot": "Evening"
   },
+  {
+    "driver_name": "Vikram Verma",
+    "capacity": 2,
+    "destination": "Jaipur",
+    "time_slot": "Afternoon"
+  },
