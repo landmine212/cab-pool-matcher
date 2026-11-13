@@ -79,3 +79,14 @@ class CabPoolMatcher:
         heapq.heappush(self.queues[trip], (-req.year, req.order, req))
         self.save_state()
         print(f"\nAdded request: {req.name} (Year {req.year}) -> {destination}, {time_slot}")
+
+    def view_status(self):
+        """Display everyone still waiting and the status of every cab."""
+        print("\n--- WAITING LIST ---")
+        any_waiting = False
+        for (dest, slot), queue in self.queues.items():
+            if queue:
+                any_waiting = True
+                print(f"\nTrip: {dest} - {slot}")
+                for _, _, req in sorted(queue):
+                    print(f"  * {req}")
