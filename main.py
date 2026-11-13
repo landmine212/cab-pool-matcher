@@ -53,3 +53,10 @@ class CabPoolMatcher:
         except (json.JSONDecodeError, KeyError, TypeError):
             print("Warning: state.json was missing or corrupted. Starting fresh from cabs.json.")
             self.cabs = self.load_cabs_from_file()
+
+    def save_state(self):
+        """Save all cabs and waiting students to a readable JSON file."""
+        waiting_list = []
+        for queue in self.queues.values():
+            for _, _, req in queue:
+                waiting_list.append(req.to_dict())
