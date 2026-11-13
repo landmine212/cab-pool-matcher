@@ -40,3 +40,16 @@ class CabPoolMatcher:
         try:
             with open(STATE_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
+
+                self.next_order = data["next_order"]
+            self.cabs = [Cab.from_dict(c) for c in data["cabs"]]
+
+            for item in data["waiting_requests"]:
+                req = RideRequest.from_dict(item)
+                trip = (req.destination, req.time_slot)
+                heapq.heappush(self.queues[trip], (-req.year, req.order, req))
+
+            print("Previous session restored from state.json!")
+        except (json.JSONDecodeError, KeyError, TypeError):
+            print("Warning: state.json was missing or corrupted. Starting fresh from cabs.json.")
+            self.cabs = self.load_cabs_from_file()
