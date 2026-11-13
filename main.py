@@ -8,6 +8,7 @@ VALID_TIME_SLOTS = ["Morning", "Afternoon", "Evening", "Night"]
 CABS_FILE = "cabs.json"
 STATE_FILE = "state.json"
 
+
 class CabPoolMatcher:
     def __init__(self):
         self.cabs = []
@@ -18,6 +19,7 @@ class CabPoolMatcher:
             for slot in VALID_TIME_SLOTS
         }
         self.load_data()
+
     def load_cabs_from_file(self):
         """Load initial cabs from cabs.json."""
         if not os.path.exists(CABS_FILE):
@@ -41,7 +43,7 @@ class CabPoolMatcher:
             with open(STATE_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
-                self.next_order = data["next_order"]
+            self.next_order = data["next_order"]
             self.cabs = [Cab.from_dict(c) for c in data["cabs"]]
 
             for item in data["waiting_requests"]:
@@ -60,7 +62,7 @@ class CabPoolMatcher:
         for queue in self.queues.values():
             for _, _, req in queue:
                 waiting_list.append(req.to_dict())
-        
+
         state = {
             "next_order": self.next_order,
             "cabs": [cab.to_dict() for cab in self.cabs],
@@ -69,7 +71,7 @@ class CabPoolMatcher:
 
         with open(STATE_FILE, "w", encoding="utf-8") as f:
             json.dump(state, f, indent=2)
-    
+
     def add_request(self, name, destination, time_slot, year):
         """Add a student request into the priority queue for their trip."""
         req = RideRequest(name, destination, time_slot, year, self.next_order)
@@ -98,3 +100,13 @@ class CabPoolMatcher:
             print("No cabs loaded.")
         for idx, cab in enumerate(self.cabs, start=1):
             print(f"{idx}. {cab}")
+
+    def find_matches(self):
+        """Preview who would get into each open cab right now without changing queues."""
+        print("\n--- MATCH PREVIEW (NO SEATS ASSIGNED YET) ---")
+        temp_queues = {trip: list(q) for trip, q in self.queues.items()}
+
+        open_cabs = [cab for cab in self.cabs if not cab.has_left]
+        if not open_cabs:
+            print("No open cabs available right now.")
+            return
