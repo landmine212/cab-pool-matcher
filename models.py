@@ -34,4 +34,10 @@ def to_dict(self):
         )
         
     def __str__(self):
-        return f"{self.name} (Year {self.year}) - requested at {self.submitted_at}"
+        status = "LEFT" if self.has_left else "OPEN"
+        seat_count = f"{len(self.passengers)}/{self.capacity}"
+        names = ", ".join(p.name for p in self.passengers) if self.passengers else "None"
+        return (
+            f"[{status}] Driver: {self.driver_name} | {self.destination} ({self.time_slot}) | "
+            f"Seats: {seat_count} | Passengers: {names}"
+        )
