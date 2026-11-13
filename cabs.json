@@ -23,3 +23,10 @@
     "destination": "Jaipur",
     "time_slot": "Afternoon"
   },
+  {
+    "driver_name": "Anil Yadav",
+    "capacity": 4,
+    "destination": "Jaipur",
+    "time_slot": "Night"
+  }
+]
