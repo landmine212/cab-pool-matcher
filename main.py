@@ -90,3 +90,11 @@ class CabPoolMatcher:
                 print(f"\nTrip: {dest} - {slot}")
                 for _, _, req in sorted(queue):
                     print(f"  * {req}")
+        if not any_waiting:
+            print("No students currently waiting.")
+
+        print("\n--- ALL CABS ---")
+        if not self.cabs:
+            print("No cabs loaded.")
+        for idx, cab in enumerate(self.cabs, start=1):
+            print(f"{idx}. {cab}")
