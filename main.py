@@ -163,3 +163,15 @@ class CabPoolMatcher:
             if choice in lookup:
                 return lookup[choice]
             print(f"Invalid input. Please choose from: {', '.join(valid_options)}")
+
+    def prompt_year():
+        """Ask for a valid college year between 1 and 5."""
+        while True:
+            raw = input("Enter year (1 to 5): ").strip()
+            if raw.isdigit():
+                year = int(raw)
+                if 1 <= year <= 5:
+                    return year
+            print("Invalid year. Please enter a number from 1 to 5.")
+
+
