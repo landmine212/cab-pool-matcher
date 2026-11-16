@@ -153,3 +153,13 @@ class CabPoolMatcher:
         print(f"Seats filled ({len(selected_cab.passengers)}/{selected_cab.capacity}):")
         for student in selected_cab.passengers:
             print(f"  - {student.name} (Year {student.year})")
+
+
+    def prompt_choice(prompt_text, valid_options):
+        """Ask the user to pick from valid options (case-insensitive) without crashing."""
+        lookup = {opt.lower(): opt for opt in valid_options}
+        while True:
+            choice = input(prompt_text).strip().lower()
+            if choice in lookup:
+                return lookup[choice]
+            print(f"Invalid input. Please choose from: {', '.join(valid_options)}")
