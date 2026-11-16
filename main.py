@@ -174,4 +174,16 @@ class CabPoolMatcher:
                     return year
             print("Invalid year. Please enter a number from 1 to 5.")
 
-
+    
+    def main():
+        app = CabPoolMatcher()
+    
+        while True:
+            print("\n===============================")
+            print("   BITS CAB POOL MATCHER")
+            print("===============================")
+            print("1. Add a new ride request")
+            print("2. View waiting list & all cabs")
+            print("3. Find Matches (Preview)")
+            print("4. Dispatch a Cab")
+            print("5. Quit")
