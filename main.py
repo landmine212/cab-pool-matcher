@@ -123,3 +123,4 @@ class CabPoolMatcher:
                     print(f"  -> {student.name} (Year {student.year})")
             else:
                 print("  -> No students waiting for this trip.")
+                
