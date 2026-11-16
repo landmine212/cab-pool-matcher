@@ -124,3 +124,32 @@ class CabPoolMatcher:
             else:
                 print("  -> No students waiting for this trip.")
                 
+    def dispatch_cab(self, destination, time_slot):
+        """Fill the first open cab for the chosen trip with top-priority students and send it off."""
+        trip = (destination, time_slot)
+
+        if not self.queues[trip]:
+            print(f"\nCannot dispatch: No students are waiting for {destination} ({time_slot}).")
+            return
+
+        selected_cab = None
+        for cab in self.cabs:
+            if not cab.has_left and cab.destination == destination and cab.time_slot == time_slot:
+                selected_cab = cab
+                break
+
+        if selected_cab is None:
+            print(f"\nCannot dispatch: No open cabs left for {destination} ({time_slot}).")
+            return
+
+        while len(selected_cab.passengers) < selected_cab.capacity and self.queues[trip]:
+            _, _, req = heapq.heappop(self.queues[trip])
+            selected_cab.passengers.append(req)
+
+        selected_cab.has_left = True
+        self.save_state()
+
+        print(f"\nCab dispatched! Driver {selected_cab.driver_name} left for {destination} ({time_slot}).")
+        print(f"Seats filled ({len(selected_cab.passengers)}/{selected_cab.capacity}):")
+        for student in selected_cab.passengers:
+            print(f"  - {student.name} (Year {student.year})")
