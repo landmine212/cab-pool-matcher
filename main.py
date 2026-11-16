@@ -187,3 +187,41 @@ class CabPoolMatcher:
             print("3. Find Matches (Preview)")
             print("4. Dispatch a Cab")
             print("5. Quit")
+
+            choice = input("Choose an option (1-5): ").strip()
+
+        if choice == "1":
+            name = input("Enter student name: ").strip()
+            if not name:
+                print("Name cannot be empty.")
+                continue
+            dest = prompt_choice("Destination (Delhi / Jaipur): ", VALID_DESTINATIONS)
+            slot = prompt_choice("Time slot (Morning / Afternoon / Evening / Night): ", VALID_TIME_SLOTS)
+            year = prompt_year()
+            app.add_request(name, dest, slot, year)
+
+        elif choice == "2":
+            app.view_status()
+
+        elif choice == "3":
+            app.find_matches()
+
+        elif choice == "4":
+            dest = prompt_choice("Destination to dispatch (Delhi / Jaipur): ", VALID_DESTINATIONS)
+            slot = prompt_choice("Time slot (Morning / Afternoon / Evening / Night): ", VALID_TIME_SLOTS)
+            app.dispatch_cab(dest, slot)
+
+        elif choice == "5":
+            app.save_state()
+            print("Progress saved to state.json. Goodbye!")
+            break
+
+        else:
+            print("Invalid option. Please enter a number between 1 and 5.")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n\nInterrupted! Your latest changes were already auto-saved to state.json.")
