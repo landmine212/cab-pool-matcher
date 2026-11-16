@@ -110,3 +110,16 @@ class CabPoolMatcher:
         if not open_cabs:
             print("No open cabs available right now.")
             return
+        for cab in open_cabs:
+            trip = (cab.destination, cab.time_slot)
+            matched = []
+            while len(matched) < cab.capacity and temp_queues[trip]:
+                _, _, req = heapq.heappop(temp_queues[trip])
+                matched.append(req)
+
+            print(f"\nCab: {cab.driver_name} | {cab.destination} ({cab.time_slot}) | Seats: {cab.capacity}")
+            if matched:
+                for student in matched:
+                    print(f"  -> {student.name} (Year {student.year})")
+            else:
+                print("  -> No students waiting for this trip.")
